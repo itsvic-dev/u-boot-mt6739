@@ -18,12 +18,15 @@
 		"sysboot mmc 0:${bootpart} fat ${pxefile_addr_r} /extlinux/extlinux.conf\0" \
 	"boot_nixos_menu=run find_bootpart; " \
 		"sysboot -p mmc 0:${bootpart} fat ${pxefile_addr_r} /extlinux/extlinux.conf\0" \
-	"boot_android=run find_bootpart; setenv bootargs; " \
+	"boot_android=run find_bootpart; " \
 		"fatload mmc 0:${bootpart} ${android_addr_r} ${android_img} && " \
+		"run boot_android_mem\0" \
+	"boot_android_mem=setenv bootargs; " \
 		"fdt addr ${fdt_addr} && fdt resize && " \
 		"fdt set /firmware/android compatible android,firmware && " \
 		"fdt set /firmware/android boot_devices soc/11240000.mmc && " \
 		"bootm ${android_addr_r} ${android_addr_r} ${fdt_addr}\0" \
+	"fastboot_bootcmd=run boot_android_mem\0" \
 	"boot_lineage=setenv android_img /android/boot.img; run boot_android\0" \
 	"boot_lineage_recovery=setenv android_img /android/recovery.img; run boot_android\0"
 
