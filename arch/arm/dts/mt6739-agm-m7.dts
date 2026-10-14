@@ -51,6 +51,15 @@
 		non-removable;
 	};
 
+	display@1400a000 {
+		compatible = "mediatek,mt6739-dbi-display";
+		reg = <0 0x1400a000 0 0x1000>,
+		      <0 0x14001000 0 0x1000>,
+		      <0 0x14013000 0 0x1000>;
+		reg-names = "ovl", "mutex", "dbi";
+		bootph-all;
+	};
+
 	watchdog@10007000 {
 		compatible = "mediatek,mt6589-wdt";
 		reg = <0 0x10007000 0 0x100>;

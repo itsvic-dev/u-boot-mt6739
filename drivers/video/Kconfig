@@ -1001,6 +1001,14 @@ config VIDEO_DW_MIPI_DSI
 	  rather requires a SoC-specific glue driver to call it), it
 	  can not be enabled from the configuration menu.
 
+config VIDEO_MT6739_DBI
+	bool "MediaTek MT6739 DBI display"
+	depends on ARCH_MEDIATEK
+	help
+	  Command-mode (DBI) panel on the MediaTek MT6739, set up by the
+	  vendor bootloader. The driver points the overlay at the U-Boot
+	  framebuffer and sends a frame to the panel on each video sync.
+
 config VIDEO_SIMPLE
 	bool "Simple display driver for preconfigured display"
 	imply VIDEO_DAMAGE
