@@ -44,10 +44,26 @@ struct mtk_musb_glue {
  * phy settings
  ******************************************************************************/
 #define USB20_PHY_BASE			0x11110800
-#define USBPHY_READ8(offset)	 \
-	readb((void *)(USB20_PHY_BASE + (offset)))
-#define USBPHY_WRITE8(offset, value)	\
-	writeb(value, (void *)(USB20_PHY_BASE + (offset)))
+static void __iomem *usb20_phy_base = (void __iomem *)USB20_PHY_BASE;
+
+/* Some PHYs (MT6739) zero the rest of the word on a byte write, so use 32-bit accesses. */
+static u8 usbphy_read8(u32 offset)
+{
+	u32 shift = (offset & 3) * 8;
+
+	return readl(usb20_phy_base + (offset & ~3)) >> shift;
+}
+
+static void usbphy_write8(u32 offset, u8 value)
+{
+	void __iomem *reg = usb20_phy_base + (offset & ~3);
+	u32 shift = (offset & 3) * 8;
+
+	writel((readl(reg) & ~(0xff << shift)) | (value << shift), reg);
+}
+
+#define USBPHY_READ8(offset)		usbphy_read8(offset)
+#define USBPHY_WRITE8(offset, value)	usbphy_write8(offset, value)
 #define USBPHY_SET8(offset, mask)	\
 	USBPHY_WRITE8(offset, (USBPHY_READ8(offset)) | (mask))
 #define USBPHY_CLR8(offset, mask)	\
@@ -329,6 +345,9 @@ static int musb_usb_probe(struct udevice *dev)
 	if (!base)
 		return -EINVAL;
 
+	if (dev_read_addr_index_ptr(dev, 1))
+		usb20_phy_base = dev_read_addr_index_ptr(dev, 1);
+
 	glue->cfg = (struct mtk_musb_config *)dev_get_driver_data(dev);
 	if (!glue->cfg)
 		return -EINVAL;
@@ -396,6 +415,8 @@ static const struct mtk_musb_config mt8518_cfg = {
 };
 
 static const struct udevice_id mtk_musb_ids[] = {
+	{ .compatible = "mediatek,mt6739-musb",
+	  .data = (ulong)&mt8518_cfg },
 	{ .compatible = "mediatek,mt8518-musb",
 	  .data = (ulong)&mt8518_cfg },
 	{ }
