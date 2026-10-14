@@ -90,6 +90,32 @@
 				MATRIX_KEY(7, 6, KEY_NUMERIC_POUND)>;
 	};
 
+	/* Stub for clocks that LK leaves on or that board code turns on. */
+	usb_clk: clock-usb {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <0>;
+	};
+
+	usb@11200000 {
+		compatible = "mediatek,mt6739-musb";
+		reg = <0 0x11200000 0 0x1000>,
+		      <0 0x11cc0800 0 0x100>;
+		clocks = <&usb_clk>, <&usb_clk>, <&usb_clk>;
+		clock-names = "usbpll", "usbmcu", "usb";
+	};
+
+	pwrap@1000d000 {
+		compatible = "mediatek,mt6739-pwrap";
+		reg = <0 0x1000d000 0 0x1000>;
+		clocks = <&usb_clk>, <&usb_clk>;
+		clock-names = "spi", "wrap";
+
+		pmic {
+			compatible = "mediatek,mt6357";
+		};
+	};
+
 	watchdog@10007000 {
 		compatible = "mediatek,mt6589-wdt";
 		reg = <0 0x10007000 0 0x100>;

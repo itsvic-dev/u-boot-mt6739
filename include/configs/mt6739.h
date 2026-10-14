@@ -4,6 +4,7 @@
 #define __MT6739_H
 
 #define CFG_EXTRA_ENV_SETTINGS \
+	"board=m7\0" \
 	"stdin=serial,keypad\0" \
 	"stdout=serial,vidconsole\0" \
 	"stderr=serial,vidconsole\0" \
@@ -34,7 +35,8 @@
 	"bootmenu_1=NixOS generations=run boot_nixos_menu\0" \
 	"bootmenu_2=LineageOS=run boot_lineage\0" \
 	"bootmenu_3=LineageOS recovery=run boot_lineage_recovery\0" \
-	"bootmenu_4=NixOS (boot.img)=run boot_bootimg\0" \
-	"bootmenu_5=Reboot=reset\0"
+	"bootmenu_4=Fastboot=fastboot usb 0\0" \
+	"bootmenu_5=NixOS (boot.img)=run boot_bootimg\0" \
+	"bootmenu_6=Reboot=reset\0"
 
 #endif
