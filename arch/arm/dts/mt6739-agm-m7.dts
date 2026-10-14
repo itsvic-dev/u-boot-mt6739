@@ -8,6 +8,7 @@
 	#size-cells = <2>;
 
 	aliases {
+		mmc0 = &mmc0;
 		serial0 = &ramconsole;
 	};
 
@@ -24,6 +25,30 @@
 		compatible = "u-boot,ramconsole";
 		reg = <0 0x4445f000 0 0x40000>;
 		bootph-all;
+	};
+
+	/* LK leaves the MSDC0 clocks running at these rates. */
+	msdc0_src: clock-msdc0-src {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <384000000>;
+	};
+
+	msdc0_hclk: clock-msdc0-hclk {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <136500000>;
+	};
+
+	mmc0: mmc@11230000 {
+		compatible = "mediatek,mt8183-mmc";
+		reg = <0 0x11230000 0 0x1000>;
+		clocks = <&msdc0_src>, <&msdc0_hclk>;
+		clock-names = "source", "hclk";
+		bus-width = <8>;
+		max-frequency = <52000000>;
+		cap-mmc-highspeed;
+		non-removable;
 	};
 
 	watchdog@10007000 {
