@@ -438,6 +438,13 @@ config DEBUG_UART_SANDBOX
 	  start up driver model. The driver will be available until the real
 	  driver model serial is running.
 
+config DEBUG_UART_RAMCONSOLE
+	bool "Linux persistent_ram zone"
+	depends on RAMCONSOLE_SERIAL
+	help
+	  Select this to write the debug UART output into the persistent_ram
+	  zone at DEBUG_UART_BASE, before driver model is running.
+
 config DEBUG_UART_SEMIHOSTING
 	bool "semihosting"
 	depends on SEMIHOSTING_SERIAL
@@ -527,6 +534,11 @@ config DEBUG_UART_GOLDFISH
 	  driver model serial is running.
 
 endchoice
+
+config DEBUG_UART_RAMCONSOLE_SIZE
+	hex "Size of the debug persistent_ram zone"
+	depends on DEBUG_UART_RAMCONSOLE
+	default 0x40000
 
 config DEBUG_UART_BASE
 	hex "Base address of UART"
@@ -964,6 +976,14 @@ config SH_SCIF_CLK_FREQ
 	int "SCIF console clock frequency"
 	depends on SCIF_CONSOLE && (!DM_SERIAL || (SPL && !SPL_DM_SERIAL))
 	default 65000000
+
+config RAMCONSOLE_SERIAL
+	bool "Console in a Linux persistent_ram zone"
+	depends on DM_SERIAL
+	help
+	  Output-only console that writes into a Linux persistent_ram zone
+	  (the format of earlycon=pstoreram and ramoops). Linux shows the
+	  text after a reset that keeps DRAM. Useful on phones without a UART.
 
 config SEMIHOSTING_SERIAL
 	bool "Semihosting UART support"
