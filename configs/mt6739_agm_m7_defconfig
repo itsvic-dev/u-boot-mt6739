@@ -14,7 +14,7 @@ CONFIG_SYS_BOOTM_LEN=0x4000000
 # CONFIG_PSCI_RESET is not set
 CONFIG_BOOTDELAY=0
 CONFIG_USE_BOOTCOMMAND=y
-CONFIG_BOOTCOMMAND="fdt addr ${prevbl_fdt_addr}; fdt get value bootargs /chosen bootargs; part start mmc 0 boot boot_start; part size mmc 0 boot boot_size; mmc read 0x48000000 ${boot_start} ${boot_size}; bootm 0x48000000 0x48000000 ${prevbl_fdt_addr}; echo agm-m7: boot failed; reset"
+CONFIG_BOOTCOMMAND="echo; echo agm-m7: display test; sleep 15; fdt addr ${prevbl_fdt_addr}; fdt get value bootargs /chosen bootargs; part start mmc 0 boot boot_start; part size mmc 0 boot boot_size; mmc read 0x48000000 ${boot_start} ${boot_size}; bootm 0x48000000 0x48000000 ${prevbl_fdt_addr}; echo agm-m7: boot failed; reset"
 CONFIG_SYS_PBSIZE=1024
 CONFIG_HUSH_PARSER=y
 CONFIG_CMD_BDI=y
@@ -37,3 +37,9 @@ CONFIG_CMD_MMC=y
 CONFIG_CMD_PART=y
 CONFIG_EFI_PARTITION=y
 CONFIG_ANDROID_BOOT_IMAGE=y
+CONFIG_VIDEO=y
+CONFIG_VIDEO_MT6739_DBI=y
+CONFIG_CONSOLE_MUX=y
+CONFIG_SYS_CONSOLE_IS_IN_ENV=y
+CONFIG_SYS_WHITE_ON_BLACK=y
+# CONFIG_VIDEO_LOGO is not set
