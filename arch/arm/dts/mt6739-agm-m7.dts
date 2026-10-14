@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: GPL-2.0
+/dts-v1/;
+
+/ {
+	model = "AGM M7";
+	compatible = "agm,m7", "mediatek,mt6739";
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	aliases {
+		serial0 = &ramconsole;
+	};
+
+	chosen {
+		stdout-path = "serial0";
+	};
+
+	memory@40000000 {
+		device_type = "memory";
+		reg = <0 0x40000000 0 0x40000000>;
+	};
+
+	ramconsole: ramconsole@4445f000 {
+		compatible = "u-boot,ramconsole";
+		reg = <0 0x4445f000 0 0x40000>;
+		bootph-all;
+	};
+
+	timer {
+		compatible = "arm,armv8-timer";
+		clock-frequency = <13000000>;
+	};
+};

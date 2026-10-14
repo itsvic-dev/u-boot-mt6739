@@ -1,0 +1,9 @@
+MT6739 AGM M7
+M:	Wiktor Bryk <contact@itsvic.dev>
+S:	Maintained
+F:	arch/arm/dts/mt6739*
+F:	arch/arm/mach-mediatek/mt6739/
+F:	board/mediatek/mt6739/
+F:	configs/mt6739_agm_m7_defconfig
+F:	drivers/serial/serial_ramconsole.c
+F:	include/configs/mt6739.h

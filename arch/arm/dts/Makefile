@@ -1050,6 +1050,7 @@ mt8371-genio-520-evk-ufs-dtbs := mt8371-genio-520-evk.dtb mt8371-genio-common-uf
 mt8391-genio-720-evk-ufs-dtbs := mt8391-genio-720-evk.dtb mt8371-genio-common-ufs.dtbo
 
 dtb-$(CONFIG_ARCH_MEDIATEK) += \
+	mt6739-agm-m7.dtb \
 	mt7622-rfb.dtb \
 	mt7623a-unielec-u7623-02-emmc.dtb \
 	mt7622-bananapi-bpi-r64.dtb \
