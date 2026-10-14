@@ -25,12 +25,7 @@
 		"fdt set /firmware/android boot_devices soc/11240000.mmc && " \
 		"bootm ${android_addr_r} ${android_addr_r} ${fdt_addr}\0" \
 	"boot_lineage=setenv android_img /android/boot.img; run boot_android\0" \
-	"boot_lineage_recovery=setenv android_img /android/recovery.img; run boot_android\0" \
-	"bootmenu_0=NixOS=run boot_nixos\0" \
-	"bootmenu_1=NixOS generations=run boot_nixos_menu\0" \
-	"bootmenu_2=LineageOS=run boot_lineage\0" \
-	"bootmenu_3=LineageOS recovery=run boot_lineage_recovery\0" \
-	"bootmenu_4=Fastboot=fastboot usb 0\0" \
-	"bootmenu_5=Reboot=reset\0"
+	"boot_lineage_recovery=setenv android_img /android/recovery.img; run boot_android\0"
+
 
 #endif
