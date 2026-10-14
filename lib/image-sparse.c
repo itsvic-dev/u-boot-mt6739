@@ -36,6 +36,7 @@
 
 #include <config.h>
 #include <blk.h>
+#include <fastboot.h>
 #include <image-sparse.h>
 #include <div64.h>
 #include <log.h>
@@ -169,6 +170,10 @@ int write_sparse_image(struct sparse_storage *info,
 	/* Start processing chunks */
 	blk = info->start;
 	for (chunk = 0; chunk < sparse_header->total_chunks; chunk++) {
+		fastboot_ui_update(FASTBOOT_UI_FLASH, NULL,
+				   (u64)(blk - info->start) * info->blksz,
+				   (u64)sparse_header->total_blks * info->blksz);
+
 		/* Read and skip over chunk header */
 		chunk_header = (chunk_header_t *)data;
 		data += sizeof(chunk_header_t);

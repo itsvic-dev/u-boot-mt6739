@@ -244,6 +244,11 @@ void fastboot_set_progress_callback(void (*progress)(const char *msg))
 	fastboot_progress_callback = progress;
 }
 
+__weak void fastboot_ui_update(enum fastboot_ui_event event, const char *text,
+			       u64 done, u64 total)
+{
+}
+
 /*
  * fastboot_init() - initialise new fastboot protocol session
  *

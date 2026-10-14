@@ -195,6 +195,7 @@ int fastboot_handle_command(char *cmd_string, char *response)
 
 	cmd_parameter = cmd_string;
 	strsep(&cmd_parameter, ":");
+	fastboot_ui_update(FASTBOOT_UI_COMMAND, cmd_string, 0, 0);
 
 	for (i = 0; i < FASTBOOT_COMMAND_COUNT; i++) {
 		if (commands[i].command &&
@@ -202,6 +203,7 @@ int fastboot_handle_command(char *cmd_string, char *response)
 			if (commands[i].dispatch) {
 				commands[i].dispatch(cmd_parameter,
 							response);
+				fastboot_ui_update(FASTBOOT_UI_RESULT, response, 0, 0);
 				return i;
 			} else {
 				pr_err("command %s not supported.\n", cmd_string);
@@ -213,6 +215,7 @@ int fastboot_handle_command(char *cmd_string, char *response)
 
 	pr_err("command %s not recognized.\n", cmd_string);
 	fastboot_fail("unrecognized command", response);
+	fastboot_ui_update(FASTBOOT_UI_RESULT, response, 0, 0);
 	return -1;
 }
 
@@ -303,6 +306,8 @@ static void download(char *cmd_parameter, char *response)
 	} else {
 		printf("Starting download of %d bytes\n",
 		       fastboot_bytes_expected);
+		fastboot_ui_update(FASTBOOT_UI_DOWNLOAD, NULL, 0,
+				   fastboot_bytes_expected);
 		fastboot_response("DATA", response, "%s", cmd_parameter);
 	}
 }
@@ -351,6 +356,8 @@ void fastboot_data_download(const void *fastboot_data,
 
 	pre_dot_num = fastboot_bytes_received / BYTES_PER_DOT;
 	fastboot_bytes_received += fastboot_data_len;
+	fastboot_ui_update(FASTBOOT_UI_DOWNLOAD, NULL, fastboot_bytes_received,
+			   fastboot_bytes_expected);
 	now_dot_num = fastboot_bytes_received / BYTES_PER_DOT;
 
 	if (pre_dot_num != now_dot_num) {
@@ -392,6 +399,8 @@ void fastboot_data_complete(char *response)
  */
 static void __maybe_unused flash(char *cmd_parameter, char *response)
 {
+	fastboot_ui_update(FASTBOOT_UI_FLASH, cmd_parameter, 0, image_size);
+
 	if (CONFIG_IS_ENABLED(FASTBOOT_FLASH_BLOCK))
 		fastboot_block_flash_write(cmd_parameter, fastboot_buf_addr,
 					   image_size, response);

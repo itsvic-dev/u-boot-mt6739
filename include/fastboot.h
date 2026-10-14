@@ -117,6 +117,18 @@ int fastboot_set_reboot_flag(enum fastboot_reboot_reason reason);
  */
 void fastboot_set_progress_callback(void (*progress)(const char *msg));
 
+/* Progress of a fastboot session, for a board status display. */
+enum fastboot_ui_event {
+	FASTBOOT_UI_COMMAND,
+	FASTBOOT_UI_DOWNLOAD,
+	FASTBOOT_UI_FLASH,
+	FASTBOOT_UI_RESULT,
+};
+
+/* Board hook for enum fastboot_ui_event; the weak default does nothing. */
+void fastboot_ui_update(enum fastboot_ui_event event, const char *text,
+			u64 done, u64 total);
+
 /*
  * fastboot_init() - initialise new fastboot protocol session
  *
