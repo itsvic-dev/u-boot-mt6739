@@ -876,6 +876,14 @@ static const struct pmic_wrapper_type pwrap_mt8195 = {
 	.caps = PWRAP_CAP_ARB,
 };
 
+/* The preloader initializes the wrapper; the WACS2 registers match the MT8365. */
+static const struct pmic_wrapper_type pwrap_mt6739 = {
+	.regs = mt8365_regs,
+	.arb_en_all = 0x3fd35,
+	.spi_w = PWRAP_MAN_CMD_SPI_WRITE,
+	.wdt_src = PWRAP_WDT_SRC_MASK_ALL,
+};
+
 static const struct pmic_wrapper_type pwrap_mt8365 = {
 	.regs = mt8365_regs,
 	.arb_en_all = 0x3ffff,
@@ -885,6 +893,7 @@ static const struct pmic_wrapper_type pwrap_mt8365 = {
 };
 
 static const struct udevice_id mtk_pwrap_ids[] = {
+	{ .compatible = "mediatek,mt6739-pwrap", .data = (ulong)&pwrap_mt6739 },
 	{ .compatible = "mediatek,mt8195-pwrap", .data = (ulong)&pwrap_mt8195 },
 	{ .compatible = "mediatek,mt8365-pwrap", .data = (ulong)&pwrap_mt8365 },
 	{ }
