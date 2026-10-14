@@ -18,11 +18,6 @@
 		"sysboot mmc 0:${bootpart} fat ${pxefile_addr_r} /extlinux/extlinux.conf\0" \
 	"boot_nixos_menu=run find_bootpart; " \
 		"sysboot -p mmc 0:${bootpart} fat ${pxefile_addr_r} /extlinux/extlinux.conf\0" \
-	"boot_bootimg=setenv bootargs; " \
-		"part start mmc 0 boot boot_start; " \
-		"part size mmc 0 boot boot_size; " \
-		"mmc read ${android_addr_r} ${boot_start} ${boot_size}; " \
-		"bootm ${android_addr_r} ${android_addr_r} ${fdt_addr}\0" \
 	"boot_android=run find_bootpart; setenv bootargs; " \
 		"fatload mmc 0:${bootpart} ${android_addr_r} ${android_img} && " \
 		"fdt addr ${fdt_addr} && fdt resize && " \
@@ -36,7 +31,6 @@
 	"bootmenu_2=LineageOS=run boot_lineage\0" \
 	"bootmenu_3=LineageOS recovery=run boot_lineage_recovery\0" \
 	"bootmenu_4=Fastboot=fastboot usb 0\0" \
-	"bootmenu_5=NixOS (boot.img)=run boot_bootimg\0" \
-	"bootmenu_6=Reboot=reset\0"
+	"bootmenu_5=Reboot=reset\0"
 
 #endif
