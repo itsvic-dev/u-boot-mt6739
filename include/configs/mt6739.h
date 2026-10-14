@@ -25,7 +25,6 @@
 	"boot_lineage=run find_bootpart; setenv bootargs; " \
 		"fatload mmc 0:${bootpart} ${android_addr_r} /android/boot.img && " \
 		"fdt addr ${fdt_addr} && fdt resize && " \
-		"fdt mknode /firmware android && " \
 		"fdt set /firmware/android compatible android,firmware && " \
 		"fdt set /firmware/android boot_devices soc/11240000.mmc && " \
 		"bootm ${android_addr_r} ${android_addr_r} ${fdt_addr}\0" \
