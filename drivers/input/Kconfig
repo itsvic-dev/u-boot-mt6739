@@ -97,6 +97,13 @@ config I8042_KEYB
 	  variable 'keymap' to "de" to select German. Keyboard repeat is
 	  handled by the keyboard itself.
 
+config MTK_KEYPAD
+	bool "MediaTek keypad"
+	depends on DM_KEYBOARD && ARCH_MEDIATEK
+	help
+	  Polled driver for the matrix keypad of MediaTek phone SoCs
+	  (MT6739, MT6779). The key map comes from linux,keymap.
+
 config TEGRA_KEYBOARD
 	bool "NVIDIA Tegra internal matrix keyboard controller support"
 	depends on ARCH_TEGRA
